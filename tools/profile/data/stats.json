@@ -1,15 +1,15 @@
 {
-  "updated": "2026-10-07",
+  "updated": "2026-10-08",
   "year": 2026,
   "created_at": "2016-12-26T08:38:44Z",
-  "stars": 52,
+  "stars": 53,
   "forks": 14,
-  "followers": 62,
-  "commits_year": 679,
-  "commits_all": 785,
-  "prs": 148,
-  "prs_merged": 143,
-  "streak_current": 10,
+  "followers": 63,
+  "commits_year": 681,
+  "commits_all": 787,
+  "prs": 149,
+  "prs_merged": 144,
+  "streak_current": 11,
   "streak_longest": 24,
   "hackathon_wins": 2,
   "languages": {
@@ -24,7 +24,7 @@
     "Smalltalk": 592
   },
   "repo_stars": {
-    "georgekobaidze": 15,
+    "georgekobaidze": 16,
     "design-patterns": 0,
     "vscode-settings": 0,
     "oh-my-posh": 0,
@@ -38,11 +38,11 @@
   },
   "dev": {
     "articles": 45,
-    "reactions": 1998,
-    "comments": 1343,
-    "views": 109741,
-    "followers": 13627
+    "reactions": 2004,
+    "comments": 1386,
+    "views": 110306,
+    "followers": 13623
   },
-  "contributions_year": 1058,
-  "contributions_all": 1698
+  "contributions_year": 1061,
+  "contributions_all": 1701
 }
