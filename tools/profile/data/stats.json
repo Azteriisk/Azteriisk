@@ -1,30 +1,30 @@
 {
-  "updated": "2026-10-10",
+  "updated": "2026-10-11",
   "year": 2026,
   "created_at": "2016-12-26T08:38:44Z",
-  "stars": 54,
-  "forks": 14,
+  "stars": 56,
+  "forks": 15,
   "followers": 65,
-  "commits_year": 703,
-  "commits_all": 809,
-  "prs": 158,
-  "prs_merged": 153,
-  "streak_current": 13,
+  "commits_year": 712,
+  "commits_all": 818,
+  "prs": 159,
+  "prs_merged": 154,
+  "streak_current": 14,
   "streak_longest": 24,
   "hackathon_wins": 2,
   "languages": {
     "TypeScript": 476092,
     "JavaScript": 221963,
+    "Python": 157480,
     "C#": 118369,
-    "Python": 117382,
     "CSS": 85328,
-    "HTML": 16894,
+    "HTML": 60617,
     "Shell": 10327,
     "PowerShell": 7766,
     "Smalltalk": 592
   },
   "repo_stars": {
-    "georgekobaidze": 17,
+    "georgekobaidze": 19,
     "design-patterns": 0,
     "vscode-settings": 0,
     "oh-my-posh": 0,
@@ -39,10 +39,10 @@
   "dev": {
     "articles": 45,
     "reactions": 2008,
-    "comments": 1394,
-    "views": 111046,
-    "followers": 13620
+    "comments": 1395,
+    "views": 111174,
+    "followers": 13618
   },
-  "contributions_year": 1092,
-  "contributions_all": 1732
+  "contributions_year": 1102,
+  "contributions_all": 1742
 }
