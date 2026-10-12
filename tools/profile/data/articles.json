@@ -1,16 +1,23 @@
 [
   {
+    "published_at": "2026-10-11T19:40:43.147Z",
+    "title": "Georgian Language Benchmark: Two Biggest AI Labs Clash in a Language That Doesn't Play by Anyone's Rules",
+    "url": "https://dev.to/georgekobaidze/georgian-language-benchmark-two-biggest-ai-labs-clash-in-a-language-that-doesnt-play-by-anyones-5b22",
+    "reactions": 46,
+    "comments": 28
+  },
+  {
     "published_at": "2026-10-01T18:02:38.358Z",
     "title": "I Turned My GitHub Profile Into a Cyberpunk Console With a City Built From My Contributions",
     "url": "https://dev.to/georgekobaidze/i-turned-my-github-profile-into-a-cyberpunk-console-with-a-city-built-from-my-contributions-h4c",
     "reactions": 251,
-    "comments": 161
+    "comments": 162
   },
   {
     "published_at": "2026-09-25T19:01:14.432Z",
     "title": "Vim's Swan Song: Is It Time to :q!?",
     "url": "https://dev.to/georgekobaidze/vims-swan-song-is-it-time-to-q-eek",
-    "reactions": 34,
+    "reactions": 35,
     "comments": 23
   },
   {
@@ -26,12 +33,5 @@
     "url": "https://dev.to/georgekobaidze/real-talk-you-dont-miss-engineering-you-miss-typing-1bc3",
     "reactions": 29,
     "comments": 8
-  },
-  {
-    "published_at": "2026-09-21T18:07:10.345Z",
-    "title": "Clean Code Is Not the Same as Clear Code: Comments Were Never the Problem",
-    "url": "https://dev.to/georgekobaidze/clean-code-is-not-the-same-as-clear-code-comments-were-never-the-problem-42n",
-    "reactions": 143,
-    "comments": 125
   }
 ]
