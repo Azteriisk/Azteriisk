@@ -1,9 +1,16 @@
 [
   {
+    "published_at": "2026-10-15T19:22:46.760Z",
+    "title": "Natural Languages Have Design Trade-offs Too: Georgian Is Dynamically Typed, English Is Statically Typed",
+    "url": "https://dev.to/georgekobaidze/natural-languages-have-design-trade-offs-too-georgian-is-dynamically-typed-english-is-statically-emi",
+    "reactions": 40,
+    "comments": 28
+  },
+  {
     "published_at": "2026-10-11T19:40:43.147Z",
     "title": "Georgian Language Benchmark: Two Biggest AI Labs Clash in a Language That Doesn't Play by Anyone's Rules",
     "url": "https://dev.to/georgekobaidze/georgian-language-benchmark-two-biggest-ai-labs-clash-in-a-language-that-doesnt-play-by-anyones-5b22",
-    "reactions": 65,
+    "reactions": 69,
     "comments": 34
   },
   {
@@ -26,12 +33,5 @@
     "url": "https://dev.to/georgekobaidze/double-engine-failure-back-to-the-hangar-after-two-data-providers-changed-course-3o3",
     "reactions": 11,
     "comments": 12
-  },
-  {
-    "published_at": "2026-09-21T20:36:39.301Z",
-    "title": "Real Talk: You Don't Miss Engineering. You Miss Typing",
-    "url": "https://dev.to/georgekobaidze/real-talk-you-dont-miss-engineering-you-miss-typing-1bc3",
-    "reactions": 29,
-    "comments": 8
   }
 ]
