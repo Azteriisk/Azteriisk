@@ -1,0 +1,111 @@
+name: Switch Profile Theme
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      theme:
+        description: "Color theme"
+        required: true
+        default: "cyan"
+        type: choice
+        options:
+          - cyan
+          - amber
+          - matrix
+          - synthwave
+          - crimson
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: switch-theme
+  cancel-in-progress: false
+
+jobs:
+  switch-theme:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.issue.title, 'theme:') || startsWith(github.event.issue.title, 'Theme:') || startsWith(github.event.issue.title, 'THEME:')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install fonttools==4.62.1 brotli==1.2.0
+
+      - name: Determine theme
+        id: parse_theme
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_THEME: ${{ github.event.inputs.theme }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            THEME="$INPUT_THEME"
+          else
+            THEME=$(python3 -c "import re, sys; print(re.sub(r'^theme:\s*', '', sys.argv[1], flags=re.I).strip().lower())" "$ISSUE_TITLE")
+          fi
+          echo "theme=$THEME" >> $GITHUB_OUTPUT
+          echo "Selected theme: $THEME"
+
+      - name: Validate theme
+        id: validate
+        run: |
+          VALID_THEMES="cyan amber matrix synthwave crimson"
+          THEME="${{ steps.parse_theme.outputs.theme }}"
+          if echo "$VALID_THEMES" | grep -qw "$THEME"; then
+            echo "valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "Invalid theme: '$THEME'"
+          fi
+
+      - name: Handle invalid theme
+        if: github.event_name == 'issues' && steps.validate.outputs.valid == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          THEME: ${{ steps.parse_theme.outputs.theme }}
+        run: |
+          gh issue comment "$ISSUE_URL" --body "⚠️ Unknown theme \`$THEME\`. Available themes are: \`cyan\`, \`amber\`, \`matrix\`, \`synthwave\`, \`crimson\`."
+          gh issue close "$ISSUE_URL" --reason "not planned"
+
+      - name: Render theme
+        if: steps.validate.outputs.valid == 'true'
+        run: |
+          python tools/profile/render.py --theme "${{ steps.parse_theme.outputs.theme }}"
+
+      - name: Update README
+        if: steps.validate.outputs.valid == 'true'
+        run: |
+          python tools/profile/readme.py
+
+      - name: Commit and push changes
+        if: steps.validate.outputs.valid == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/profile/data assets README.md
+          if git diff --cached --quiet; then
+            echo "No SVG changes detected."
+          else
+            git commit -m "style(theme): switch profile theme to ${{ steps.parse_theme.outputs.theme }} [skip ci]"
+            git push
+          fi
+
+      - name: Close issue with confirmation
+        if: github.event_name == 'issues' && steps.validate.outputs.valid == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          THEME: ${{ steps.parse_theme.outputs.theme }}
+        run: |
+          gh issue comment "$ISSUE_URL" --body "✨ Profile theme successfully switched to **$THEME**!"
+          gh issue close "$ISSUE_URL" --reason "completed"

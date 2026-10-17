@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="176" height="80" viewBox="0 0 176 80" role="img" aria-labelledby="t d">
+<title id="t">Theme: Cyan</title>
+<desc id="d">Switch color theme to Cyan</desc>
+<style>
+@font-face{font-family:'JBM';font-weight:400;src:url(data:font/woff2;base64,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) format('woff2')}@font-face{font-family:'JBM';font-weight:700;src:url(data:font/woff2;base64,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) format('woff2')}
+text{font-family:'JBM',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}
+.dim{fill:#8b949e}.cy{fill:#00d9ff}.fg{fill:#c9d1d9}.gr{fill:#3fb950}.wh{fill:#f0fbff}
+@keyframes fadein{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.ln{animation:fadein .35s ease-out both}
+.cursor{animation:blink 1.05s step-end infinite}
+.dot{animation:pulse 2s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<defs>
+<pattern id="grid" x="0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#00d9ff" stroke-opacity=".06"/></pattern>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
+</defs>
+<path d="M16 -40V120" fill="none" stroke="#00d9ff" stroke-width="3" opacity=".55" filter="url(#glow)"/>
+<rect x="16" y="0" width="160" height="80" fill="#03040a"/>
+<rect x="16" y="0" width="160" height="80" fill="url(#grid)"/>
+<g class="ln" style="animation-delay:0.20s">
+<path d="M52 12H164L176 24V68H52Z" fill="#00d9ff" fill-opacity=".18"/>
+<path d="M52 12H164L176 24V68H52Z" fill="none" stroke="#00d9ff" stroke-width="2" filter="url(#g)" opacity=".7"/>
+<path d="M52 12H164L176 24V68H52Z" fill="none" stroke="#00d9ff" stroke-opacity="1" stroke-width="2"/>
+<path d="M164 12L176 24" stroke="#00d9ff" stroke-width="2"/>
+<circle cx="70" cy="34" r="4.5" fill="#00d9ff"/>
+<circle cx="70" cy="34" r="5" fill="#00d9ff" filter="url(#g)"/>
+<text x="81" y="38" font-weight="800" fill="#00d9ff" style="font-size:12px">CYAN</text>
+<text x="66" y="57" class="dim" style="font-size:10px;fill:#00d9ff">● ACTIVE</text>
+</g>
+<path d="M16 0V80" fill="none" stroke="#00d9ff" stroke-width="1.2"/>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="176" height="80" viewBox="0 0 176 80" role="img" aria-labelledby="t d">
+<title id="t">Theme: Amber</title>
+<desc id="d">Switch color theme to Amber</desc>
+<style>
+@font-face{font-family:'JBM';font-weight:400;src:url(data:font/woff2;base64,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) format('woff2')}@font-face{font-family:'JBM';font-weight:700;src:url(data:font/woff2;base64,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) format('woff2')}
+text{font-family:'JBM',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}
+.dim{fill:#8b949e}.cy{fill:#00d9ff}.fg{fill:#c9d1d9}.gr{fill:#3fb950}.wh{fill:#f0fbff}
+@keyframes fadein{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.ln{animation:fadein .35s ease-out both}
+.cursor{animation:blink 1.05s step-end infinite}
+.dot{animation:pulse 2s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<defs>
+<pattern id="grid" x="24" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#00d9ff" stroke-opacity=".06"/></pattern>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
+</defs>
+
+<rect x="0" y="0" width="176" height="80" fill="#03040a"/>
+<rect x="0" y="0" width="176" height="80" fill="url(#grid)"/>
+<g class="ln" style="animation-delay:0.28s">
+<path d="M39 12H151L163 24V68H39Z" fill="#e8b84b" fill-opacity=".04"/>
+
+<path d="M39 12H151L163 24V68H39Z" fill="none" stroke="#e8b84b" stroke-opacity=".4" stroke-width="1"/>
+<path d="M151 12L163 24" stroke="#e8b84b" stroke-width="2"/>
+<circle cx="57" cy="34" r="4.5" fill="#e8b84b"/>
+
+<text x="68" y="38" font-weight="700" fill="#c9d1d9" style="font-size:12px">AMBER</text>
+<text x="53" y="57" class="dim" style="font-size:10px;fill:#8b949e">○ SELECT</text>
+</g>
+
+</svg>

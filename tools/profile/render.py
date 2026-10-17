@@ -17,10 +17,128 @@ ROOT = HERE.parent.parent
 DATA = HERE / "data"
 OUT = ROOT / "assets"
 FONT_DIR = HERE / "fonts"
-CYAN, MAGENTA, GREEN = "#00d9ff", "#ff2bd6", "#3fb950"
+THEMES = {
+    "cyan": {
+        "name": "Cyan",
+        "label": "CYAN // NEON",
+        "accent": "#00d9ff",
+        "secondary": "#ff2bd6",
+        "ok": "#3fb950",
+        "bg": "#03040a",
+        "fg": "#c9d1d9",
+        "dim": "#8b949e",
+        "roofs": ["#0c2d6b", "#1554c0", "#2f81f7", "#1fd5ff"],
+        "win_on": "#7df9ff",
+        "win_side": "#4cc9f0",
+        "win_off": "#111827",
+    },
+    "amber": {
+        "name": "Amber",
+        "label": "AMBER // GOLD",
+        "accent": "#e8b84b",
+        "secondary": "#ff5f3a",
+        "ok": "#6ee79a",
+        "bg": "#0c0c0b",
+        "fg": "#e8e6e0",
+        "dim": "#9a9890",
+        "roofs": ["#4a3410", "#8a5f14", "#d0951f", "#ffd36e"],
+        "win_on": "#ffe7a3",
+        "win_side": "#e8b84b",
+        "win_off": "#1f1b13",
+    },
+    "matrix": {
+        "name": "Matrix",
+        "label": "MATRIX // GREEN",
+        "accent": "#00ff66",
+        "secondary": "#a3e635",
+        "ok": "#00e5ff",
+        "bg": "#020b04",
+        "fg": "#c8facc",
+        "dim": "#7ba882",
+        "roofs": ["#0a3d1b", "#126e32", "#1db351", "#50fa7b"],
+        "win_on": "#7df9a5",
+        "win_side": "#38ef7d",
+        "win_off": "#0d1f12",
+    },
+    "synthwave": {
+        "name": "Synthwave",
+        "label": "SYNTH // PINK",
+        "accent": "#ff2bd6",
+        "secondary": "#00f5d4",
+        "ok": "#f72585",
+        "bg": "#0d021a",
+        "fg": "#f0dbfc",
+        "dim": "#a27ab8",
+        "roofs": ["#3d0859", "#691099", "#a81fe6", "#ff5ef4"],
+        "win_on": "#ff9ec7",
+        "win_side": "#ff2bd6",
+        "win_off": "#210933",
+    },
+    "crimson": {
+        "name": "Crimson",
+        "label": "CRIMSON // RED",
+        "accent": "#ff3344",
+        "secondary": "#ff9900",
+        "ok": "#ff5577",
+        "bg": "#0f0204",
+        "fg": "#fed8dc",
+        "dim": "#ab797f",
+        "roofs": ["#4a0d12", "#871720", "#cc2533", "#ff5c6a"],
+        "win_on": "#ff858f",
+        "win_side": "#ff3344",
+        "win_off": "#240609",
+    },
+}
+
+CURRENT_THEME = "cyan"
+CYAN = THEMES["cyan"]["accent"]
+MAGENTA = THEMES["cyan"]["secondary"]
+GREEN = THEMES["cyan"]["ok"]
+BG = THEMES["cyan"]["bg"]
+ROOFS = THEMES["cyan"]["roofs"]
+WIN_ON = THEMES["cyan"]["win_on"]
+WIN_ON_SIDE = THEMES["cyan"]["win_side"]
+WIN_OFF = THEMES["cyan"]["win_off"]
+BASE_CSS = ""
+DEFS = ""
+
+
+def init_theme(name):
+    global CURRENT_THEME, CYAN, MAGENTA, GREEN, BG, ROOFS, WIN_ON, WIN_ON_SIDE, WIN_OFF, BASE_CSS, DEFS
+    if name not in THEMES:
+        name = "cyan"
+    CURRENT_THEME = name
+    t = THEMES[name]
+    CYAN = t["accent"]
+    MAGENTA = t["secondary"]
+    GREEN = t["ok"]
+    BG = t["bg"]
+    ROOFS = t["roofs"]
+    WIN_ON = t["win_on"]
+    WIN_ON_SIDE = t["win_side"]
+    WIN_OFF = t["win_off"]
+
+    BASE_CSS = f"""text{{font-family:'JBM',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}}
+.dim{{fill:{t['dim']}}}.cy{{fill:{CYAN}}}.fg{{fill:{t['fg']}}}.gr{{fill:{GREEN}}}.wh{{fill:#f0fbff}}
+@keyframes fadein{{from{{opacity:0;transform:translateX(-6px)}}to{{opacity:1;transform:none}}}}
+@keyframes blink{{0%,49%{{opacity:1}}50%,100%{{opacity:0}}}}
+@keyframes pulse{{0%,100%{{opacity:1}}50%{{opacity:.35}}}}
+.ln{{animation:fadein .35s ease-out both}}
+.cursor{{animation:blink 1.05s step-end infinite}}
+.dot{{animation:pulse 2s ease-in-out infinite}}"""
+
+    DEFS = f"""<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="{CYAN}" stroke-opacity=".06"/></pattern>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>"""
+
+
+init_theme("cyan")
+
 W, M = 880, 16            # slice width, transparent side margin (room for the glow)
 FL, FR = M, W - M         # frame left / right
 X = 52                    # text left edge
+SEG = W // 5              # 176px per 5-button slice
+BTN_W, BTN_GAP = 124, 39  # buttons line up with text margins (x = 52 … 828)
 e = html.escape
 
 
@@ -40,20 +158,6 @@ def faces(text, weights=(400, 700)):
         out.append(f"@font-face{{font-family:'JBM';font-weight:{w};src:url(data:font/woff2;base64,"
                    f"{base64.b64encode(b.getvalue()).decode()}) format('woff2')}}")
     return "".join(out)
-
-
-BASE_CSS = f"""text{{font-family:'JBM',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}}
-.dim{{fill:#8b949e}}.cy{{fill:{CYAN}}}.fg{{fill:#c9d1d9}}.gr{{fill:{GREEN}}}.wh{{fill:#f0fbff}}
-@keyframes fadein{{from{{opacity:0;transform:translateX(-6px)}}to{{opacity:1;transform:none}}}}
-@keyframes blink{{0%,49%{{opacity:1}}50%,100%{{opacity:0}}}}
-@keyframes pulse{{0%,100%{{opacity:1}}50%{{opacity:.35}}}}
-.ln{{animation:fadein .35s ease-out both}}
-.cursor{{animation:blink 1.05s step-end infinite}}
-.dot{{animation:pulse 2s ease-in-out infinite}}"""
-
-DEFS = f"""<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="{CYAN}" stroke-opacity=".06"/></pattern>
-<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
-<filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>"""
 
 
 def slice_svg(h, body, *, title, desc, text, top=False, bottom=False, css="", defs="", weights=(400, 700)):
@@ -87,7 +191,7 @@ def slice_svg(h, body, *, title, desc, text, top=False, bottom=False, css="", de
 {defs}
 </defs>
 <path d="{glow}" fill="none" stroke="{CYAN}" stroke-width="3" opacity=".55" filter="url(#glow)"/>
-<rect x="{FL}" y="{y0}" width="{FR-FL}" height="{y1-y0}" fill="#03040a"/>
+<rect x="{FL}" y="{y0}" width="{FR-FL}" height="{y1-y0}" fill="{BG}"/>
 <rect x="{FL}" y="{y0}" width="{FR-FL}" height="{y1-y0}" fill="url(#grid)"/>
 {body}
 <path d="{rails}" fill="none" stroke="{CYAN}" stroke-width="1.2"/>
@@ -171,6 +275,76 @@ def build_header():
                      text=text, top=True, css=css, defs=defs, weights=(400, 700, 800))
 
 
+# ─────────────────────────── theme selector ───────────────────────────
+def build_theme_head():
+    h = 80
+    body = f'''<text x="{X}" y="36" font-weight="700" fill="{CYAN}" filter="url(#g)" opacity=".8" style="font-size:18px">SYS://THEME_SELECT</text>
+<text x="{X}" y="36" font-weight="700" style="font-size:18px"><tspan class="cy">SYS://</tspan><tspan class="wh">THEME_SELECT</tspan></text>
+<text x="{FR-36}" y="36" text-anchor="end" letter-spacing="1.5" class="dim" style="font-size:11px">COLOR_DECK: {CURRENT_THEME.upper()}</text>
+<g class="ln" style="animation-delay:.15s"><text x="{X}" y="62" class="dim"><tspan class="gr">$</tspan> config --set theme [profile] <tspan fill="#484f58"># click a deck below to switch</tspan></text></g>'''
+    return slice_svg(h, body, title="Theme Selector", desc="Choose profile color deck",
+                     text=f"SYS://THEME_SELECT COLOR_DECK: {CURRENT_THEME.upper()}$ config --set theme [profile] # click a deck below to switch")
+
+
+def build_theme_button(k, active_theme):
+    key = list(THEMES.keys())[k]
+    t = THEMES[key]
+    is_active = (key == active_theme)
+    h = 80
+    x0 = SEG * k
+    lx = X + k * (BTN_W + BTN_GAP) - x0
+    first, last = k == 0, k == len(THEMES) - 1
+    bg0 = FL - x0 if first else 0
+    bg1 = FR - x0 if last else SEG
+    rails = (f"M{FL - x0} 0V{h}" if first else "") + (f"M{FR - x0} 0V{h}" if last else "")
+    glow = (f"M{FL - x0} -40V{h+40}" if first else "") + (f"M{FR - x0} -40V{h+40}" if last else "")
+    by, bh, cut = 12, 56, 12
+    box = f"M{lx} {by}H{lx+BTN_W-cut}L{lx+BTN_W} {by+cut}V{by+bh}H{lx}Z"
+
+    col = t["accent"]
+    status_text = "● ACTIVE" if is_active else "○ SELECT"
+    fill_op = ".18" if is_active else ".04"
+    stroke_op = "1" if is_active else ".4"
+    stroke_w = "2" if is_active else "1"
+    title_weight = "800" if is_active else "700"
+
+    glow_path = f'<path d="{box}" fill="none" stroke="{col}" stroke-width="2" filter="url(#g)" opacity=".7"/>' if is_active else ""
+    swatch_glow = f'<circle cx="{lx+18}" cy="{by+22}" r="5" fill="{col}" filter="url(#g)"/>' if is_active else ""
+
+    text = t["name"].upper() + status_text
+    body = f'''<g class="ln" style="animation-delay:{.2 + k*.08:.2f}s">
+<path d="{box}" fill="{col}" fill-opacity="{fill_op}"/>
+{glow_path}
+<path d="{box}" fill="none" stroke="{col}" stroke-opacity="{stroke_op}" stroke-width="{stroke_w}"/>
+<path d="M{lx+BTN_W-cut} {by}L{lx+BTN_W} {by+cut}" stroke="{col}" stroke-width="2"/>
+<circle cx="{lx+18}" cy="{by+22}" r="4.5" fill="{col}"/>
+{swatch_glow}
+<text x="{lx+29}" y="{by+26}" font-weight="{title_weight}" fill="{col if is_active else '#c9d1d9'}" style="font-size:12px">{e(t["name"].upper())}</text>
+<text x="{lx+14}" y="{by+45}" class="dim" style="font-size:10px;fill:{col if is_active else '#8b949e'}">{status_text}</text>
+</g>'''
+    defs = f'''<pattern id="grid" x="{(-x0) % 40}" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="{CYAN}" stroke-opacity=".06"/></pattern>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>'''
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{SEG}" height="{h}" viewBox="0 0 {SEG} {h}" role="img" aria-labelledby="t d">
+<title id="t">Theme: {e(t["name"])}</title>
+<desc id="d">Switch color theme to {e(t["name"])}</desc>
+<style>
+{faces(text + visible(body))}
+{BASE_CSS}
+@media (prefers-reduced-motion:reduce){{*{{animation:none!important}}}}
+</style>
+<defs>
+{defs}
+</defs>
+{f'<path d="{glow}" fill="none" stroke="{CYAN}" stroke-width="3" opacity=".55" filter="url(#glow)"/>' if glow else ""}
+<rect x="{bg0}" y="0" width="{bg1-bg0}" height="{h}" fill="{BG}"/>
+<rect x="{bg0}" y="0" width="{bg1-bg0}" height="{h}" fill="url(#grid)"/>
+{body}
+{f'<path d="{rails}" fill="none" stroke="{CYAN}" stroke-width="1.2"/>' if rails else ""}
+</svg>
+'''
+
+
 # ─────────────────────────────── footer ───────────────────────────────
 def build_footer():
     h = 80
@@ -202,7 +376,7 @@ def half_slice(h, side, body, *, title, desc, text, weights=(400, 700)):
 {DEFS}
 </defs>
 <path d="M{rx} -40V{h+40}" fill="none" stroke="{CYAN}" stroke-width="3" opacity=".55" filter="url(#glow)"/>
-<rect x="{bx0}" y="0" width="{bx1-bx0}" height="{h}" fill="#03040a"/>
+<rect x="{bx0}" y="0" width="{bx1-bx0}" height="{h}" fill="{BG}"/>
 <rect x="{bx0}" y="0" width="{bx1-bx0}" height="{h}" fill="url(#grid)"/>
 {body}
 <path d="M{rx} 0V{h}" fill="none" stroke="{CYAN}" stroke-width="1.2"/>
@@ -212,16 +386,16 @@ def half_slice(h, side, body, *, title, desc, text, weights=(400, 700)):
 
 PROJECTS = [
     dict(slug="unknown-frequencies", repo="UnknownFouriers", name="Unknown Frequencies", url="https://github.com/Azteriisk/UnknownFouriers",
-         tag="WEB AUDIO SYNTH", tagc=GREEN, stars=1, stack="Web Audio · Next.js · Canvas · TS",
+         tag="WEB AUDIO SYNTH", tag_type="green", stars=1, stack="Web Audio · Next.js · Canvas · TS",
          desc="Real-time Web Audio Fourier Transform Ridgeline Visualizer inspired by pulsar CP 1919."),
     dict(slug="spectral-subtractor", repo="SpectralSubtractor", name="SpectralSubtractor", url="https://github.com/Azteriisk/SpectralSubtractor",
-         tag="AUDIO DSP", tagc=GREEN, stars=6, stack="C++ · Audio DSP · Real-Time",
+         tag="AUDIO DSP", tag_type="green", stars=6, stack="C++ · Audio DSP · Real-Time",
          desc="Real-time spectral subtraction audio filter and noise reduction processor."),
     dict(slug="omarchy-display-manager", repo="omarchy-display-manager", name="omarchy-display-manager", url="https://github.com/Azteriisk/omarchy-display-manager",
-         tag="LINUX / WAYLAND", tagc=MAGENTA, stars=2, stack="C++ · Wayland · Hyprland",
+         tag="LINUX / WAYLAND", tag_type="magenta", stars=2, stack="C++ · Wayland · Hyprland",
          desc="Display and monitor management daemon and profile switcher for Omarchy Linux."),
     dict(slug="omarchy-boot-manager", repo="omarchy-boot-manager", name="omarchy-boot-manager", url="https://github.com/Azteriisk/omarchy-boot-manager",
-         tag="SYSTEM TOOL", tagc=MAGENTA, stars=5, stack="Rust · systemd-boot · Arch",
+         tag="SYSTEM TOOL", tag_type="magenta", stars=5, stack="Rust · systemd-boot · Arch",
          desc="Interactive bootloader, kernel, and system snapshot management utility for Arch."),
 ]
 CARD_H = 200
@@ -237,6 +411,7 @@ def build_projects_head():
 def build_card(p, side, delay, stars=None):
     repo_key = p.get("repo", p["slug"])
     p = dict(p, stars=stars.get(repo_key, p["stars"]) if stars else p["stars"])
+    tagc = GREEN if p.get("tag_type") == "green" else MAGENTA
     x0 = 52 if side == "L" else 10          # card box, 378 wide, 20px gutter between the two cards
     cw, y0, ch = 378, 12, 176
     pad = 18
@@ -257,8 +432,8 @@ def build_card(p, side, delay, stars=None):
 <text x="{tx}" y="{y0+34}" font-weight="700" fill="{CYAN}" filter="url(#g)" opacity=".6" style="font-size:17px">{e(p["name"])}</text>
 <text x="{tx}" y="{y0+34}" font-weight="700" class="cy" style="font-size:17px">{e(p["name"])}</text>
 <path d="M{tx+title_w+11} {y0+31}l8-8M{tx+title_w+13} {y0+23}h6v6" fill="none" stroke="{CYAN}" stroke-width="1.6"/>
-<rect x="{tx}" y="{y0+46}" width="{tag_w}" height="18" fill="none" stroke="{p["tagc"]}" stroke-opacity=".8"/>
-<text x="{tx+8}" y="{y0+59}" letter-spacing="1" fill="{p["tagc"]}" style="font-size:11px">{e(p["tag"])}</text>
+<rect x="{tx}" y="{y0+46}" width="{tag_w}" height="18" fill="none" stroke="{tagc}" stroke-opacity=".8"/>
+<text x="{tx+8}" y="{y0+59}" letter-spacing="1" fill="{tagc}" style="font-size:11px">{e(p["tag"])}</text>
 {desc}
 <text x="{tx}" y="{y0+158}" class="dim" style="font-size:12px">{e(p["stack"])}</text>
 {star}
@@ -527,7 +702,7 @@ def build_link_button(k):
 <filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
 </defs>
 {f'<path d="{glow}" fill="none" stroke="{CYAN}" stroke-width="3" opacity=".55" filter="url(#glow)"/>' if glow else ""}
-<rect x="{bg0}" y="0" width="{bg1-bg0}" height="{h}" fill="#03040a"/>
+<rect x="{bg0}" y="0" width="{bg1-bg0}" height="{h}" fill="{BG}"/>
 <rect x="{bg0}" y="0" width="{bg1-bg0}" height="{h}" fill="url(#grid)"/>
 {body}
 {f'<path d="{rails}" fill="none" stroke="{CYAN}" stroke-width="1.2"/>' if rails else ""}
@@ -539,8 +714,6 @@ def build_link_button(k):
 CITY_TW, CITY_TH = 25, 12.5                  # iso tile width / height
 CITY_OX, CITY_OY = 152.5, 262                # grid origin inside the 880-wide slice
 CITY_HMAX = 118                              # tallest building, px
-ROOFS = ["#0c2d6b", "#1554c0", "#2f81f7", "#1fd5ff"]   # navy → electric blue, matching the neon console
-WIN_ON, WIN_ON_SIDE, WIN_OFF = "#7df9ff", "#4cc9f0", "#111827"
 
 
 def _shade(hexc, f):
@@ -646,7 +819,7 @@ def build_city(calendar, updated):
 <g>{"".join(stars)}</g>
 <circle cx="{FR-80}" cy="{160}" r="40" fill="url(#moonglow)"/>
 <circle cx="{FR-80}" cy="{160}" r="14" fill="#e6edf3"/>
-<circle cx="{FR-74}" cy="{155}" r="12.5" fill="#03040a"/>
+<circle cx="{FR-74}" cy="{155}" r="12.5" fill="{BG}"/>
 <g class="plane"><g transform="translate(0 132)"><rect x="0" y="0" width="14" height="2" rx="1" fill="#484f58"/><circle class="bl" cx="0" cy="1" r="1.6" fill="#ff7b72"/><circle class="bl" cx="14" cy="1" r="1.6" fill="#f0f6fc" style="animation-delay:.7s"/></g></g>
 {info_svg}
 {"".join(shapes)}
@@ -679,12 +852,32 @@ def main():
     ap = argparse.ArgumentParser(description="Render the profile SVGs from data/*.json.")
     ap.add_argument("--data", type=pathlib.Path, default=DATA, help="folder with stats.json and articles.json")
     ap.add_argument("--out", type=pathlib.Path, default=OUT, help="folder to write the SVGs into")
+    ap.add_argument("--theme", type=str, default=None, choices=list(THEMES.keys()), help="color theme to render")
     args = ap.parse_args()
     OUT = args.out
+
+    theme_file = args.data / "theme.json"
+    theme_name = args.theme
+    if not theme_name and theme_file.exists():
+        try:
+            theme_name = json.loads(theme_file.read_text()).get("theme")
+        except Exception:
+            theme_name = "cyan"
+    if not theme_name or theme_name not in THEMES:
+        theme_name = "cyan"
+
+    init_theme(theme_name)
+    theme_file.write_text(json.dumps({"theme": CURRENT_THEME}, indent=2) + "\n")
+
     stats = json.load(open(args.data / "stats.json"))
     articles = json.load(open(args.data / "articles.json"))
     stars = stats.get("repo_stars", {})
+
     write("header.svg", build_header())
+    write("theme-head.svg", build_theme_head())
+    for k in range(len(THEMES)):
+        t_key = list(THEMES.keys())[k]
+        write(f"themes/{t_key}.svg", build_theme_button(k, CURRENT_THEME))
     write("links.svg", build_links_head())
     for k, (key, *_) in enumerate(LINKS):
         write(f"links/{key}.svg", build_link_button(k))
@@ -701,7 +894,7 @@ def main():
             write(f"writing/post-{i+1}.svg", build_article_row(a, i))
         write("writing/all-articles.svg", build_writing_more())
     write("footer.svg", build_footer())
-    print("rendered", len(list(OUT.rglob("*.svg"))), "SVGs into", OUT)
+    print(f"rendered {len(list(OUT.rglob('*.svg')))} SVGs into {OUT} with theme '{CURRENT_THEME}'")
 
 
 if __name__ == "__main__":
