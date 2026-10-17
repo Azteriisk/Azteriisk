@@ -11,6 +11,7 @@ on:
         default: "cyan"
         type: choice
         options:
+          - white
           - cyan
           - amber
           - matrix
@@ -58,7 +59,7 @@ jobs:
       - name: Validate theme
         id: validate
         run: |
-          VALID_THEMES="cyan amber matrix synthwave crimson"
+          VALID_THEMES="white cyan amber matrix synthwave crimson"
           THEME="${{ steps.parse_theme.outputs.theme }}"
           if echo "$VALID_THEMES" | grep -qw "$THEME"; then
             echo "valid=true" >> $GITHUB_OUTPUT
@@ -74,7 +75,7 @@ jobs:
           ISSUE_URL: ${{ github.event.issue.html_url }}
           THEME: ${{ steps.parse_theme.outputs.theme }}
         run: |
-          gh issue comment "$ISSUE_URL" --body "⚠️ Unknown theme \`$THEME\`. Available themes are: \`cyan\`, \`amber\`, \`matrix\`, \`synthwave\`, \`crimson\`."
+          gh issue comment "$ISSUE_URL" --body "⚠️ Unknown theme \`$THEME\`. Available themes are: \`white\`, \`cyan\`, \`amber\`, \`matrix\`, \`synthwave\`, \`crimson\`."
           gh issue close "$ISSUE_URL" --reason "not planned"
 
       - name: Render theme

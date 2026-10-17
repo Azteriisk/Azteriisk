@@ -18,6 +18,22 @@ DATA = HERE / "data"
 OUT = ROOT / "assets"
 FONT_DIR = HERE / "fonts"
 THEMES = {
+    "white": {
+        "name": "White",
+        "label": "WHITE // GLOW",
+        "accent": "#ffffff",
+        "secondary": "#79c0ff",
+        "ok": "#ffffff",
+        "bg": "#050508",
+        "fg": "#f8fafc",
+        "dim": "#94a3b8",
+        "roofs": ["#1e293b", "#475569", "#94a3b8", "#ffffff"],
+        "win_on": "#ffffff",
+        "win_side": "#cbd5e1",
+        "win_off": "#0f172a",
+        "wall_l": "#1e2430",
+        "wall_r": "#121620",
+    },
     "cyan": {
         "name": "Cyan",
         "label": "CYAN // NEON",
@@ -31,6 +47,8 @@ THEMES = {
         "win_on": "#7df9ff",
         "win_side": "#4cc9f0",
         "win_off": "#111827",
+        "wall_l": "#1a2440",
+        "wall_r": "#111831",
     },
     "amber": {
         "name": "Amber",
@@ -45,6 +63,8 @@ THEMES = {
         "win_on": "#ffe7a3",
         "win_side": "#e8b84b",
         "win_off": "#1f1b13",
+        "wall_l": "#2b1d0c",
+        "wall_r": "#170f06",
     },
     "matrix": {
         "name": "Matrix",
@@ -59,6 +79,8 @@ THEMES = {
         "win_on": "#7df9a5",
         "win_side": "#38ef7d",
         "win_off": "#0d1f12",
+        "wall_l": "#0d2b15",
+        "wall_r": "#07170b",
     },
     "synthwave": {
         "name": "Synthwave",
@@ -73,6 +95,8 @@ THEMES = {
         "win_on": "#ff9ec7",
         "win_side": "#ff2bd6",
         "win_off": "#210933",
+        "wall_l": "#2a0a38",
+        "wall_r": "#17051f",
     },
     "crimson": {
         "name": "Crimson",
@@ -87,26 +111,31 @@ THEMES = {
         "win_on": "#ff858f",
         "win_side": "#ff3344",
         "win_off": "#240609",
+        "wall_l": "#2b090e",
+        "wall_r": "#170407",
     },
 }
 
-CURRENT_THEME = "cyan"
-CYAN = THEMES["cyan"]["accent"]
-MAGENTA = THEMES["cyan"]["secondary"]
-GREEN = THEMES["cyan"]["ok"]
-BG = THEMES["cyan"]["bg"]
-ROOFS = THEMES["cyan"]["roofs"]
-WIN_ON = THEMES["cyan"]["win_on"]
-WIN_ON_SIDE = THEMES["cyan"]["win_side"]
-WIN_OFF = THEMES["cyan"]["win_off"]
+CURRENT_THEME = "amber"
+CYAN = THEMES["amber"]["accent"]
+MAGENTA = THEMES["amber"]["secondary"]
+GREEN = THEMES["amber"]["ok"]
+BG = THEMES["amber"]["bg"]
+ROOFS = THEMES["amber"]["roofs"]
+WIN_ON = THEMES["amber"]["win_on"]
+WIN_ON_SIDE = THEMES["amber"]["win_side"]
+WIN_OFF = THEMES["amber"]["win_off"]
+WALL_L = THEMES["amber"]["wall_l"]
+WALL_R = THEMES["amber"]["wall_r"]
 BASE_CSS = ""
 DEFS = ""
+DECK_THEMES = ["amber", "white", "cyan", "matrix", "synthwave"]
 
 
 def init_theme(name):
-    global CURRENT_THEME, CYAN, MAGENTA, GREEN, BG, ROOFS, WIN_ON, WIN_ON_SIDE, WIN_OFF, BASE_CSS, DEFS
+    global CURRENT_THEME, CYAN, MAGENTA, GREEN, BG, ROOFS, WIN_ON, WIN_ON_SIDE, WIN_OFF, WALL_L, WALL_R, BASE_CSS, DEFS
     if name not in THEMES:
-        name = "cyan"
+        name = "amber"
     CURRENT_THEME = name
     t = THEMES[name]
     CYAN = t["accent"]
@@ -117,9 +146,11 @@ def init_theme(name):
     WIN_ON = t["win_on"]
     WIN_ON_SIDE = t["win_side"]
     WIN_OFF = t["win_off"]
+    WALL_L = t.get("wall_l", "#1a2440")
+    WALL_R = t.get("wall_r", "#111831")
 
     BASE_CSS = f"""text{{font-family:'JBM',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}}
-.dim{{fill:{t['dim']}}}.cy{{fill:{CYAN}}}.fg{{fill:{t['fg']}}}.gr{{fill:{GREEN}}}.wh{{fill:#f0fbff}}
+.dim{{fill:{t['dim']}}}.cy{{fill:{CYAN}}}.fg{{fill:{t['fg']}}}.gr{{fill:{GREEN}}}.wh{{fill:{'#ffffff' if name == 'white' else ('#fff8e7' if name == 'amber' else '#f0fbff')}}}
 @keyframes fadein{{from{{opacity:0;transform:translateX(-6px)}}to{{opacity:1;transform:none}}}}
 @keyframes blink{{0%,49%{{opacity:1}}50%,100%{{opacity:0}}}}
 @keyframes pulse{{0%,100%{{opacity:1}}50%{{opacity:.35}}}}
@@ -132,7 +163,7 @@ def init_theme(name):
 <filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>"""
 
 
-init_theme("cyan")
+init_theme("amber")
 
 W, M = 880, 16            # slice width, transparent side margin (room for the glow)
 FL, FR = M, W - M         # frame left / right
@@ -286,14 +317,16 @@ def build_theme_head():
                      text=f"SYS://THEME_SELECT COLOR_DECK: {CURRENT_THEME.upper()}$ config --set theme [profile] # click a deck below to switch")
 
 
-def build_theme_button(k, active_theme):
-    key = list(THEMES.keys())[k]
+def build_theme_button(k, active_theme, deck=None):
+    if deck is None:
+        deck = DECK_THEMES
+    key = deck[k]
     t = THEMES[key]
     is_active = (key == active_theme)
     h = 80
     x0 = SEG * k
     lx = X + k * (BTN_W + BTN_GAP) - x0
-    first, last = k == 0, k == len(THEMES) - 1
+    first, last = k == 0, k == len(deck) - 1
     bg0 = FL - x0 if first else 0
     bg1 = FR - x0 if last else SEG
     rails = (f"M{FL - x0} 0V{h}" if first else "") + (f"M{FR - x0} 0V{h}" if last else "")
@@ -768,8 +801,8 @@ def build_city(calendar, updated):
         h = 8 + (CITY_HMAX - 8) * math.sqrt(n / peak)
         level = sum(n > t for t in lv)
         Tu, Ru, Bu, Lu = [(x, y - h) for x, y in (T, R, B, L)]
-        shapes.append(f'<path d="M{_p(*L)}L{_p(*B)}L{_p(*Bu)}L{_p(*Lu)}Z" fill="#1a2440"/>'
-                      f'<path d="M{_p(*B)}L{_p(*R)}L{_p(*Ru)}L{_p(*Bu)}Z" fill="#111831"/>'
+        shapes.append(f'<path d="M{_p(*L)}L{_p(*B)}L{_p(*Bu)}L{_p(*Lu)}Z" fill="{WALL_L}"/>'
+                      f'<path d="M{_p(*B)}L{_p(*R)}L{_p(*Ru)}L{_p(*Bu)}Z" fill="{WALL_R}"/>'
                       f'<path d="M{_p(*Tu)}L{_p(*Ru)}L{_p(*Bu)}L{_p(*Lu)}Z" fill="{ROOFS[level]}"/>')
         on, side, off, fl = [], [], [], []
         for face, (a, b) in (("l", (L, B)), ("r", (B, R))):
@@ -862,9 +895,9 @@ def main():
         try:
             theme_name = json.loads(theme_file.read_text()).get("theme")
         except Exception:
-            theme_name = "cyan"
+            theme_name = "amber"
     if not theme_name or theme_name not in THEMES:
-        theme_name = "cyan"
+        theme_name = "amber"
 
     init_theme(theme_name)
     theme_file.write_text(json.dumps({"theme": CURRENT_THEME}, indent=2) + "\n")
@@ -873,11 +906,17 @@ def main():
     articles = json.load(open(args.data / "articles.json"))
     stars = stats.get("repo_stars", {})
 
+    deck = list(DECK_THEMES)
+    if CURRENT_THEME in THEMES and CURRENT_THEME not in deck:
+        deck[-1] = CURRENT_THEME
+
     write("header.svg", build_header())
     write("theme-head.svg", build_theme_head())
-    for k in range(len(THEMES)):
-        t_key = list(THEMES.keys())[k]
-        write(f"themes/{t_key}.svg", build_theme_button(k, CURRENT_THEME))
+    for k, t_key in enumerate(deck):
+        write(f"themes/{t_key}.svg", build_theme_button(k, CURRENT_THEME, deck))
+    for key in THEMES:
+        if key not in deck:
+            write(f"themes/{key}.svg", build_theme_button(len(deck) - 1, CURRENT_THEME, deck[:-1] + [key]))
     write("links.svg", build_links_head())
     for k, (key, *_) in enumerate(LINKS):
         write(f"links/{key}.svg", build_link_button(k))
