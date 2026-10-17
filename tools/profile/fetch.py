@@ -19,10 +19,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-USER = "georgekobaidze"
-HACKATHON_WINS = 2
+USER = "Azteriisk"
+HACKATHON_WINS = 0
 DATA = pathlib.Path(__file__).resolve().parent / "data"
-UA = "georgekobaidze-profile-updater"
+UA = "azteriisk-profile-updater"
 
 
 # ─────────────────────────────── helpers ───────────────────────────────
@@ -226,13 +226,13 @@ def main():
 
     try:
         dev, latest = fetch_dev(os.environ.get("DEV_API_KEY"))
-        prev = stats.get("dev") or {}
-        # keep a previously known value rather than dropping a tile when the key-only calls fail
-        stats["dev"] = {k: (v if v is not None else prev.get(k)) for k, v in dev.items()}
-        if latest:
+        if latest or os.environ.get("DEV_API_KEY"):
+            stats["dev"] = {k: v for k, v in dev.items() if v is not None}
             articles = latest
+        else:
+            stats["dev"] = None
+            articles = []
         ok = True
-        print("dev: ok" + ("" if os.environ.get("DEV_API_KEY") else " (public only, no DEV_API_KEY)"))
     except Exception as ex:  # noqa: BLE001
         warn(f"DEV fetch failed, keeping previous values: {ex}")
 

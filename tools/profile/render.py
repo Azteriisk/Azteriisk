@@ -123,11 +123,11 @@ def up40(v):
 
 # ─────────────────────────────── header ───────────────────────────────
 def build_header():
-    bar_left, bar_right = "SYS://PILOTRONICA // NODE:GIORGI", "ONLINE · ALL SYSTEMS NOMINAL"
-    name = "GIORGI KOBAIDZE"
-    lines = ["software engineer · engineering manager", "10 years of C# / .NET, back-end at heart",
-             "building open-source tools under "]
-    text = bar_left + bar_right + name + "$ whoami>>" + "".join(lines) + "PILOTRONICA"
+    bar_left, bar_right = "SYS://AZTERISK // NODE:ALEC", "ONLINE · ALL SYSTEMS NOMINAL"
+    name = "ALEC BRANDT"
+    lines = ["systems & web developer · linux enthusiast", "creator of omarchy desktop utilities",
+             "building software & engines under "]
+    text = bar_left + bar_right + name + "$ whoami>>" + "".join(lines) + "AZTERISK.NET"
     h = 360
     css = f"""@keyframes type{{from{{width:0}}}}
 @keyframes flicker{{0%{{opacity:0}}10%{{opacity:1}}14%{{opacity:.2}}22%{{opacity:1}}30%{{opacity:.4}}40%,100%{{opacity:1}}}}
@@ -143,7 +143,7 @@ def build_header():
     dotx = FR - 20 - len(bar_right) * 8.2 - 16
     rows = [f'<text class="fg" x="{X}" y="{{y}}"><tspan class="cy">&gt;&gt;</tspan> {e(lines[0])}</text>',
             f'<text class="fg" x="{X}" y="{{y}}"><tspan class="cy">&gt;&gt;</tspan> {e(lines[1])}</text>',
-            f'<text class="fg" x="{X}" y="{{y}}"><tspan class="cy">&gt;&gt;</tspan> {e(lines[2])}<tspan class="cy" font-weight="700">PILOTRONICA</tspan></text>']
+            f'<text class="fg" x="{X}" y="{{y}}"><tspan class="cy">&gt;&gt;</tspan> {e(lines[2])}<tspan class="cy" font-weight="700">AZTERISK.NET</tspan></text>']
     desc_lines, _ = stagger(rows, 218, 24, delay0=1.75, step=0.25)
     body = f'''<rect x="{FL}" y="{M}" width="{FR-FL}" height="34" fill="{CYAN}" fill-opacity=".08"/>
 <line x1="{FL}" y1="{M+34}" x2="{FR}" y2="{M+34}" stroke="{CYAN}" stroke-opacity=".5"/>
@@ -165,18 +165,18 @@ def build_header():
 <rect class="cursor" x="{X+18}" y="291" width="10" height="17" fill="{CYAN}" filter="url(#sglow)"/>
 </g>
 <rect x="{FL}" y="{M+35}" width="{FR-FL}" height="{h-M-35}" fill="url(#scan)"/>'''
-    return slice_svg(h, body, title="Giorgi Kobaidze",
-                     desc="Software engineer and engineering manager. 10 years of C# and .NET, back-end at heart. "
-                          "Building open-source tools under Pilotronica.",
+    return slice_svg(h, body, title="Alec Brandt",
+                     desc="Systems & web developer. Creator of Omarchy desktop utilities. "
+                          "Building software and engines under azterisk.net.",
                      text=text, top=True, css=css, defs=defs, weights=(400, 700, 800))
 
 
 # ─────────────────────────────── footer ───────────────────────────────
 def build_footer():
     h = 80
-    text = "$ exit connection to georgekobaidze closed. // EOF"
+    text = "$ exit connection to azterisk closed. // EOF"
     body = f'''<text x="{X}" y="30" class="dim"><tspan class="gr">$</tspan> exit</text>
-<text x="{X}" y="52" class="dim">connection to <tspan class="cy">georgekobaidze</tspan> closed. <tspan fill="#484f58">// EOF</tspan></text>'''
+<text x="{X}" y="52" class="dim">connection to <tspan class="cy">azterisk</tspan> closed. <tspan fill="#484f58">// EOF</tspan></text>'''
     return slice_svg(h, body, title="End of profile", desc="Connection closed.", text=text, bottom=True)
 
 
@@ -211,18 +211,18 @@ def half_slice(h, side, body, *, title, desc, text, weights=(400, 700)):
 
 
 PROJECTS = [
-    dict(slug="noterunway", name="NoteRunway", url="https://github.com/georgekobaidze/noterunway",
-         tag="HACKATHON WINNER", tagc=GREEN, stars=13, stack="Next.js · TypeScript · MCP",
-         desc="AI-powered Notion workspace management: clean up and organize your workspace with deterministic scans and AI analysis."),
-    dict(slug="metal-birds-watch", name="Metal Birds Watch", url="https://github.com/georgekobaidze/metal-birds-watch",
-         tag="HACKATHON WINNER", tagc=GREEN, stars=7, stack="Node.js · Leaflet · JavaScript",
-         desc="Real-time notifications when planes fly over your location, with live aircraft data on an interactive map."),
-    dict(slug="sunday-dev-drive", name="Sunday DEV Drive", url="https://github.com/georgekobaidze/sunday-dev-drive",
-         tag="DEV WEEKEND CHALLENGE", tagc=MAGENTA, stars=9, stack="Three.js · JavaScript · DEV API",
-         desc="A synthwave drive through your DEV Community articles, with your posts lit up on neon roadside billboards."),
-    dict(slug="neuralhats", name="NeuralHats", url="https://github.com/georgekobaidze/neuralhats",
-         tag="GEMMA 4 CHALLENGE", tagc=MAGENTA, stars=4, stack="React · FastAPI · Gemma 4",
-         desc="Six AI personas debate any topic using the Six Thinking Hats framework. Runs fully local."),
+    dict(slug="unknown-frequencies", repo="UnknownFouriers", name="Unknown Frequencies", url="https://github.com/Azteriisk/UnknownFouriers",
+         tag="WEB AUDIO SYNTH", tagc=GREEN, stars=1, stack="Web Audio · Next.js · Canvas · TS",
+         desc="Real-time Web Audio Fourier Transform Ridgeline Visualizer inspired by pulsar CP 1919."),
+    dict(slug="spectral-subtractor", repo="SpectralSubtractor", name="SpectralSubtractor", url="https://github.com/Azteriisk/SpectralSubtractor",
+         tag="AUDIO DSP", tagc=GREEN, stars=6, stack="C++ · Audio DSP · Real-Time",
+         desc="Real-time spectral subtraction audio filter and noise reduction processor."),
+    dict(slug="omarchy-display-manager", repo="omarchy-display-manager", name="omarchy-display-manager", url="https://github.com/Azteriisk/omarchy-display-manager",
+         tag="LINUX / WAYLAND", tagc=MAGENTA, stars=2, stack="C++ · Wayland · Hyprland",
+         desc="Display and monitor management daemon and profile switcher for Omarchy Linux."),
+    dict(slug="omarchy-boot-manager", repo="omarchy-boot-manager", name="omarchy-boot-manager", url="https://github.com/Azteriisk/omarchy-boot-manager",
+         tag="SYSTEM TOOL", tagc=MAGENTA, stars=5, stack="Rust · systemd-boot · Arch",
+         desc="Interactive bootloader, kernel, and system snapshot management utility for Arch."),
 ]
 CARD_H = 200
 
@@ -231,11 +231,12 @@ def build_projects_head():
     h = 120
     body = heading(44, "projects", "// 04") + f'''
 <g class="ln" style="animation-delay:.2s"><text x="{X}" y="96" class="dim"><tspan class="gr">$</tspan> ls -l ~/projects</text></g>'''
-    return slice_svg(h, body, title="Projects", desc="Projects", text="~/projects// 02$ ls -l")
+    return slice_svg(h, body, title="Projects", desc="Projects", text="~/projects// 04$ ls -l")
 
 
 def build_card(p, side, delay, stars=None):
-    p = dict(p, stars=stars.get(p["slug"], p["stars"]) if stars else p["stars"])
+    repo_key = p.get("repo", p["slug"])
+    p = dict(p, stars=stars.get(repo_key, p["stars"]) if stars else p["stars"])
     x0 = 52 if side == "L" else 10          # card box, 378 wide, 20px gutter between the two cards
     cw, y0, ch = 378, 12, 176
     pad = 18
@@ -295,7 +296,7 @@ def build_stats(d):
     yrs = (y - since).days // 365
     parts = []
     parts.append(heading(44, "stats", "// 02"))
-    parts.append(f'<g class="ln" style="animation-delay:.15s"><text x="{X}" y="96" class="dim"><tspan class="gr">$</tspan> gh stats --user georgekobaidze</text></g>')
+    parts.append(f'<g class="ln" style="animation-delay:.15s"><text x="{X}" y="96" class="dim"><tspan class="gr">$</tspan> gh stats --user Azteriisk</text></g>')
     # row 1 — big tiles
     tw, gap, ty, th = 182, 16, 118, 92
     t1 = [("TOTAL STARS", fmt(d["stars"]), f"across {d.get('repo_count', 'all')} repos" if d.get("repo_count") else "across all repos"),
@@ -309,8 +310,9 @@ def build_stats(d):
     # row 2 — neofetch list + languages
     ry, rh = ty + th + 16, 150
     lw = 300
+    repo_cnt = len(d.get("repo_stars", {}))
     kv = [("followers", fmt(d["followers"])), ("forks", fmt(d["forks"])),
-          ("member since", f"{since:%b %Y} ({yrs}y)"), ("hackathon wins", f"{d['hackathon_wins']} ★")]
+          ("member since", f"{since:%b %Y} ({yrs}y)"), ("public repos", f"{repo_cnt}")]
     rows = "\n".join(
         f'<text x="{X+16}" y="{ry+38+i*28}" xml:space="preserve"><tspan class="cy">{e(k)}</tspan><tspan class="dim">{"." * (16 - len(k))}</tspan> <tspan class="fg">{e(v)}</tspan></text>'
         for i, (k, v) in enumerate(kv))
@@ -358,7 +360,7 @@ def build_stats(d):
     fy = ry + rh + 30
     if t3:
         dy = ry + rh + 34
-        parts.append(f'<g class="ln" style="animation-delay:.8s"><text x="{X}" y="{dy}" class="dim"><tspan class="gr">$</tspan> dev stats --user georgekobaidze</text></g>')
+        parts.append(f'<g class="ln" style="animation-delay:.8s"><text x="{X}" y="{dy}" class="dim"><tspan class="gr">$</tspan> dev stats --user Azteriisk</text></g>')
         n = len(t3)
         dw = (FR - 36 - X - (n - 1) * 12) / n
         for i, (lab, val) in enumerate(t3):
@@ -366,13 +368,13 @@ def build_stats(d):
         fy = dy + 16 + 76 + 30
     parts.append(f'<text x="{FR-36}" y="{fy}" text-anchor="end" fill="#484f58" style="font-size:11px">// last sync {d["updated"]}</text>')
     h = up40(fy + 16)
-    text = "".join(str(x) for x in ["~/stats// 02$ gh stats --user georgekobaidze dev stats", "".join(p for p in parts)])
+    text = "".join(str(x) for x in ["~/stats// 02$ gh stats --user Azteriisk dev stats", "".join(p for p in parts)])
     text = re.sub(r"<[^>]+>", "", text) + "0123456789,—%.★()d"
     activity = (f"{d['contributions_year']} contributions in {d['year']}, {d['contributions_all']} all time"
                 if "contributions_year" in d else f"{d['commits_year']} commits in {d['year']}, {d['commits_all']} all time")
     desc = (f"GitHub stats: {d['stars']} total stars; {activity}; "
             f"{d['prs']} pull requests ({d['prs_merged']} merged); current streak {d['streak_current']} days, longest {d['streak_longest']}; "
-            f"{d['followers']} followers; {d['forks']} forks; member since {since:%B %Y}; {d['hackathon_wins']} hackathon wins. "
+            f"{d['followers']} followers; {d['forks']} forks; member since {since:%B %Y}; {repo_cnt} public repos. "
             "Top languages: " + ", ".join(f"{k} {p*100:.1f}%" for k, p in items) + "."
             + ("" if not t3 else " DEV Community: " + ", ".join(f"{fmt(v)} {lab.lower()}" for lab, v in t3) + "."))
     return slice_svg(h, "\n".join(parts), title="Stats", desc=desc, text=html.unescape(text))
@@ -380,11 +382,10 @@ def build_stats(d):
 
 # ─────────────────────────────── stack ────────────────────────────────
 STACK = [
-    ("languages", ["C#", "Java", "TypeScript", "JavaScript", "Python"]),
-    ("frameworks", [".NET", "Node.js", "FastAPI"]),
-    ("databases", ["PostgreSQL", "MS SQL", "MySQL", "Redis", "MongoDB"]),
-    ("cloud", ["AWS", "Azure"]),
-    ("front-end", ["React", "Next.js", "Three.js", "Tailwind CSS"]),
+    ("languages", ["Rust", "C++", "C", "TypeScript", "Python", "Shell"]),
+    ("systems", ["Linux", "Wayland", "Hyprland", "Arch Linux", "systemd"]),
+    ("front-end", ["React", "Next.js", "Tailwind CSS", "QML", "HTML/CSS"]),
+    ("tooling", ["Neovim", "Git", "Docker", "Mise", "CMake"]),
 ]
 
 
@@ -465,11 +466,11 @@ def build_writing_more():
 
 # ──────────────────────────────── links ───────────────────────────────
 LINKS = [
-    ("devdotto", "DEV", "@georgekobaidze", "https://dev.to/georgekobaidze"),
-    ("linkedin", "LinkedIn", "in/giorgikobaidze", "https://www.linkedin.com/in/giorgikobaidze/"),
-    ("x", "X", "@georgekobaidze", "https://x.com/georgekobaidze"),
-    ("youtube", "YouTube", "@Pilotronica", "https://www.youtube.com/@Pilotronica"),
-    ("discord", "Discord", "say hi", "https://discord.com/users/571315867426488330"),
+    ("web", "Web", "azterisk.net", "https://azterisk.net"),
+    ("github", "GitHub", "@Azteriisk", "https://github.com/Azteriisk"),
+    ("x", "X", "@azterisk", "https://x.com"),
+    ("discord", "Discord", "say hi", "https://discord.com"),
+    ("linkedin", "LinkedIn", "in/alec-brandt", "https://www.linkedin.com/"),
 ]
 ICONS = json.load(open(HERE / "icons.json"))
 SEG = W // len(LINKS)     # 176 px per button slice
@@ -480,14 +481,14 @@ def icon_markup(key, x, y, size=18):
     if key == "linkedin":   # simple generic "in" glyph (LinkedIn isn't in Simple Icons)
         return (f'<rect x="{x}" y="{y}" width="{size}" height="{size}" rx="3" fill="{CYAN}"/>'
                 f'<text x="{x + size/2}" y="{y + size - 4.5}" text-anchor="middle" font-weight="700" fill="#03040a" style="font-size:12px">in</text>')
-    d = ICONS[key]
+    d = ICONS.get(key, ICONS["x"])
     return f'<path transform="translate({x} {y}) scale({size/24})" d="{d}" fill="{CYAN}"/>'
 
 
 def build_links_head():
     body = heading(44, "links", "// 01") + f'''
-<g class="ln" style="animation-delay:.15s"><text x="{X}" y="96" class="dim"><tspan class="gr">$</tspan> ping georgekobaidze --all-channels</text></g>'''
-    return slice_svg(120, body, title="Links", desc="Where to find me", text="~/links// 01$ ping georgekobaidze --all-channels")
+<g class="ln" style="animation-delay:.15s"><text x="{X}" y="96" class="dim"><tspan class="gr">$</tspan> ping azterisk --all-channels</text></g>'''
+    return slice_svg(120, body, title="Links", desc="Where to find me", text="~/links// 01$ ping azterisk --all-channels")
 
 
 def build_link_button(k):
@@ -686,7 +687,7 @@ def main():
     write("header.svg", build_header())
     write("links.svg", build_links_head())
     for k, (key, *_) in enumerate(LINKS):
-        write(f"links/{'dev' if key == 'devdotto' else key}.svg", build_link_button(k))
+        write(f"links/{key}.svg", build_link_button(k))
     write("stats.svg", build_stats(stats))
     if (args.data / "calendar.json").exists():
         write("contribution-city.svg", build_city(json.load(open(args.data / "calendar.json")), stats["updated"]))
@@ -694,10 +695,11 @@ def main():
     for i, p in enumerate(PROJECTS):
         write(f"card-{p['slug']}.svg", build_card(p, "L" if i % 2 == 0 else "R", 0.3 + i * 0.12, stars))
     write("stack.svg", build_stack())
-    write("writing.svg", build_writing_head())
-    for i, a in enumerate(articles[:5]):
-        write(f"writing/post-{i+1}.svg", build_article_row(a, i))
-    write("writing/all-articles.svg", build_writing_more())
+    if articles:
+        write("writing.svg", build_writing_head())
+        for i, a in enumerate(articles[:5]):
+            write(f"writing/post-{i+1}.svg", build_article_row(a, i))
+        write("writing/all-articles.svg", build_writing_more())
     write("footer.svg", build_footer())
     print("rendered", len(list(OUT.rglob("*.svg"))), "SVGs into", OUT)
 
