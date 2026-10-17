@@ -831,14 +831,19 @@ def build_city(calendar, updated):
             flick += 1
             shapes.append(f'<path class="f{flick % 3}" d="{seg}" fill="{WIN_ON if face == "l" else WIN_ON_SIDE}"/>')
 
-    # night sky in the empty top-right corner: stars, moon, a plane crossing
+    # night sky: stars spread across the whole wide horizon, glowing crescent moon, a plane crossing
+    moon_x, moon_y = FR - 110, 145
     stars = []
-    for i in range(46):
-        x, y = 470 + next(rnd) * 350, 118 + next(rnd) * 150
-        if x > 700 and y < 215:           # keep the moon clear
+    star_colors = ["#ffe7a3", "#f0f6fc", "#e8e6e0", "#c9d1d9"]
+    for i in range(85):
+        x = 60 + next(rnd) * (FR - 80)
+        y_max = 235 if x < 280 else (195 if x < 520 else 205)
+        y = 115 + next(rnd) * (y_max - 115)
+        if (x - moon_x) ** 2 + (y - moon_y) ** 2 < 48 ** 2:
             continue
-        cls = f' class="s{i % 3}"' if i % 3 == 0 else ""
-        stars.append(f'<circle{cls} cx="{x:.1f}" cy="{y:.1f}" r="{(.6, .8, 1.1)[i % 3]}" fill="#c9d1d9" opacity="{.35 + next(rnd) * .5:.2f}"/>')
+        cls = f' class="s{i % 2}"' if i % 2 == 0 else ""
+        col = star_colors[i % len(star_colors)]
+        stars.append(f'<circle{cls} cx="{x:.1f}" cy="{y:.1f}" r="{(.6, .8, 1.1)[i % 3]}" fill="{col}" opacity="{.35 + next(rnd) * .55:.2f}"/>')
     busiest_d, busiest_n = max(days, key=lambda t: t[1]) if days else (None, 0)
     info = [f'<tspan class="cy" font-weight="700">{total:,}</tspan> contributions · last 365 days',
             f'busiest day <tspan class="fg">{busiest_d:%b} {busiest_d.day}</tspan> · {busiest_n}' if busiest_n else "",
@@ -850,21 +855,22 @@ def build_city(calendar, updated):
     body = heading(44, "contribution-city", "// 03") + f'''
 <g class="ln" style="animation-delay:.15s"><text x="{X}" y="96" class="dim"><tspan class="gr">$</tspan> render-city --last 365d <tspan fill="#484f58"># one building per day</tspan></text></g>
 <g>{"".join(stars)}</g>
-<circle cx="{FR-80}" cy="{160}" r="40" fill="url(#moonglow)"/>
-<circle cx="{FR-80}" cy="{160}" r="14" fill="#e6edf3"/>
-<circle cx="{FR-74}" cy="{155}" r="12.5" fill="{BG}"/>
+<circle cx="{moon_x}" cy="{moon_y}" r="45" fill="url(#moonglow)"/>
+<circle cx="{moon_x}" cy="{moon_y}" r="14.5" fill="#fff8e7"/>
+<circle cx="{moon_x + 6}" cy="{moon_y - 4.5}" r="13" fill="{BG}"/>
 <g class="plane"><g transform="translate(0 132)"><rect x="0" y="0" width="14" height="2" rx="1" fill="#484f58"/><circle class="bl" cx="0" cy="1" r="1.6" fill="#ff7b72"/><circle class="bl" cx="14" cy="1" r="1.6" fill="#f0f6fc" style="animation-delay:.7s"/></g></g>
 {info_svg}
 {"".join(shapes)}
 <text x="{X}" y="{652}" class="dim" style="font-size:11px">quiet</text>{legend}<text x="{X + 52 + 5*16 + 6}" y="{652}" class="dim" style="font-size:11px">skyscraper</text>'''
     css = f"""@keyframes tw{{0%,100%{{opacity:.9}}50%{{opacity:.15}}}}
+@keyframes tw2{{0%,100%{{opacity:.75}}50%{{opacity:.2}}}}
 @keyframes fl{{0%,40%,100%{{opacity:1}}45%,60%{{opacity:.1}}}}
 @keyframes blink{{0%,90%,100%{{opacity:0}}93%{{opacity:1}}}}
 @keyframes fly{{from{{transform:translate({FL - 40}px,0)}}to{{transform:translate({FR + 40}px,-30px)}}}}
-.s0{{animation:tw 3s infinite}}
+.s0{{animation:tw 3.2s infinite}}.s1{{animation:tw2 4.8s infinite 1.6s}}
 .f0{{animation:fl 5s infinite}}.f1{{animation:fl 7s infinite 2s}}.f2{{animation:fl 9s infinite 4s}}
 .plane{{animation:fly 26s linear infinite}}.bl{{animation:blink 1.4s infinite}}"""
-    defs = f'<radialGradient id="moonglow"><stop offset="0" stop-color="#f0f6fc" stop-opacity=".22"/><stop offset="1" stop-color="#f0f6fc" stop-opacity="0"/></radialGradient>'
+    defs = f'<radialGradient id="moonglow"><stop offset="0" stop-color="{CYAN}" stop-opacity=".25"/><stop offset="0.6" stop-color="{CYAN}" stop-opacity=".08"/><stop offset="1" stop-color="{CYAN}" stop-opacity="0"/></radialGradient>'
     desc = (f"Contribution city: an isometric night skyline with one building per day of the last year, "
             f"taller and brighter for busier days. {total:,} contributions"
             + (f", busiest day {busiest_d:%B} {busiest_d.day} with {busiest_n}" if busiest_n else "") + ".")
