@@ -1,20 +1,20 @@
 {
-  "updated": "2026-11-20",
+  "updated": "2026-11-21",
   "year": 2026,
   "created_at": "2020-10-16T07:43:02Z",
   "stars": 23,
   "forks": 2,
   "followers": 4,
-  "commits_year": 629,
-  "commits_all": 773,
+  "commits_year": 670,
+  "commits_all": 814,
   "prs": 6,
   "prs_merged": 4,
-  "streak_current": 0,
+  "streak_current": 2,
   "streak_longest": 5,
   "hackathon_wins": 0,
   "languages": {
     "HTML": 26922983,
-    "C++": 6455751,
+    "C++": 6717765,
     "C": 4392804,
     "TypeScript": 3659231,
     "Python": 879806,
@@ -28,9 +28,9 @@
     "Java": 96793,
     "Kotlin": 94445,
     "Slint": 54046,
+    "CMake": 44750,
     "Objective-C": 40068,
     "Lua": 39828,
-    "CMake": 39445,
     "PowerShell": 29526,
     "Odin": 11109,
     "GLSL": 9945,
@@ -111,9 +111,11 @@
     "PhoneTossSurvival": 0,
     "AutoShip": 0,
     "WeightTracker": 0,
-    "claimshield": 0
+    "claimshield": 0,
+    "CrimsonCoop": 0,
+    "CrimsonSwitch": 0
   },
   "dev": null,
-  "contributions_year": 740,
-  "contributions_all": 955
+  "contributions_year": 783,
+  "contributions_all": 998
 }
