@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-24",
+  "updated": "2026-11-25",
   "year": 2026,
   "created_at": "2020-10-16T07:43:02Z",
   "stars": 24,
@@ -9,7 +9,7 @@
   "commits_all": 824,
   "prs": 6,
   "prs_merged": 4,
-  "streak_current": 4,
+  "streak_current": 0,
   "streak_longest": 5,
   "hackathon_wins": 0,
   "languages": {
